@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <title>Xeron</title>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/css/all.css"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" style="color:violet!important; font-size: 25px!important;">Xeron</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link">Welcome, {{ username }} <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Download
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="/download/mac">Download for Mac</a>
+                            <a class="dropdown-item" href="/download/linux">Download for Linux</a>
+                            <a class="dropdown-item" href="/download/windows">Download for Windows</a>
+                            <a class="dropdown-item" href="/download/ios">Download for iOS</a>
+                            <a class="dropdown-item" href="/download/android">Download for Android</a>
+                        </div>
+                    </div>
+                </li>
+
+
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li> -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li> -->
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method="POST" action="/search">
+                <input class="form-control mr-sm-2" name="search" id='search' type="text" placeholder="Search"
+                    aria-label="Search">
+                <input class="btn btn-outline-success my-2 my-sm-0" value="Search" type="submit">
+            </form>
+            {% if logged_in %}
+            <a class="nav-link" href="/logout" style="color:tomato!important;"> Logout</a>
+            {% else %}
+            <a class="nav-link" href="/login" style="color:springgreen!important;"> Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <br>
+    <form class="form-inline" method="POST" action="/change" style="padding-left: 200px;">
+        <div class="form-group mb-2">
+            <label for="staticEmail2" class="sr-only">RSA Public Key</label>
+            <input type="text" name="ext" readonly class="form-control-plaintext" id="staticEmail2"
+                value="RSA Public Key:">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="inputPassword2" class="sr-only">RSA Public Key</label>
+            <input type="text" class="form-control" id="inputPassword2" placeholder="Paste Public Key here"
+                name="public_key">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Add / Update</button>
+    </form>
+    <br>
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Fetch Link</th>
+            </tr>
+        </thead>
+        {% if res %}
+        <tbody>
+            {% for result in res %}
+            <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+                <td><a href="/fetch/{{ result[2] }}">{{ result[2] }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+
+
+    <!-- Footer -->
+    <footer class="page-footer font-small special-color-dark pt-4" style="text-align:bottom;">
+        <!-- Footer Elements -->
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2019 Noirdemort. A
+            <strong>Stygian</strong> product under <strong>Cimmerian</strong> initiative.
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+</body>
+<script>
+    $('.dropdown-toggle').dropdown()
+</script>
+
+</html>

@@ -1,0 +1,6 @@
+Flask
+pymongo
+pycryptodomex==3.8.2
+pycryptodome
+dnspython==1.16.0
+gunicorn

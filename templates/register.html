@@ -1,0 +1,146 @@
+<html>
+
+<head>
+    <title>Xeron</title>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
+</head>
+<style>
+    body#LoginForm {
+        background-image: url("../static/mountain.jpeg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        padding: 10px;
+    }
+
+    .form-heading {
+        color: #fff;
+        font-size: 40px;
+    }
+
+    .panel h2 {
+        color: #444444;
+        font-size: 18px;
+        margin: 0 0 8px 0;
+    }
+
+    .panel p {
+        color: #777777;
+        font-size: 14px;
+        margin-bottom: 30px;
+        line-height: 24px;
+    }
+
+    .login-form .form-control {
+        background: #f7f7f7 none repeat scroll 0 0;
+        border: 1px solid #d4d4d4;
+        border-radius: 4px;
+        font-size: 14px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .main-div {
+        background: #e7e7e4ec none repeat scroll 0 0;
+        border-radius: 15px;
+        margin: 10px auto 20px;
+        max-width: 38%;
+        padding: 30px 70px 40px 71px;
+    }
+
+    .botto-text {
+        color: #ffffff;
+        font-size: 17px;
+        margin: auto;
+    }
+
+    .login-form .form-group {
+        margin-bottom: 10px;
+    }
+
+    .login-form {
+        text-align: center;
+        color: #d4d4d4b6;
+    }
+
+    .login-form .btn.btn-primary {
+        background: #181cfce1 none repeat scroll 0 0;
+        border-color: #f5d62a;
+        color: #ffffff;
+        font-size: 14px;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        padding: 0;
+    }
+
+
+    .login-form .btn.btn-primary.reset {
+        background: #494eff none repeat scroll 0 0;
+    }
+
+    .back {
+        text-align: center;
+        margin-top: 5px;
+        color: teal;
+        padding: 5px;
+    }
+
+    .back a {
+        color: rgb(0, 89, 255);
+        font-size: 17px;
+        text-decoration: none;
+    }
+</style>
+
+<body id="LoginForm">
+    <div class="container">
+        <h1 class="form-heading">Xeron</h1>
+        <div class="login-form">
+            <div class="main-div">
+                <div class="panel">
+                    <h2>User Registration</h2>
+                    <p>Please fill the following details.</p>
+                </div>
+                <form id="Login" action="/register" method="POST">
+
+                    <div class="form-group">
+                        <input name="username" type="email" class="form-control" id="inputEmail"
+                            placeholder="Email Address" required />
+                    </div>
+                    <div class="form-group">
+                        <input name="name" type="text" class="form-control" id="user name" placeholder="Your Name"
+                            required />
+                    </div>
+
+                    <div class="form-group">
+                        <input name="password" type="password" class="form-control" id="inputPassword"
+                            placeholder="Password" required />
+                    </div>
+                    <div class="form-group">
+                        <input name="confirm_password" type="password" class="form-control" id="confirm_password"
+                            placeholder="Confirm Password" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input name="public_key" type="text" class="form-control" id="public_key"
+                            placeholder="Paste RSA public key" required />
+                    </div>
+
+                    <input class="btn btn-primary" value="Register" type="submit" />
+
+                </form>
+                <p class="back"> Already have an account? <a href="/login">Login</a> </p>
+            </div>
+            <p class="botto-text"> © Noirdemort<br> A <strong>Stygian</strong> Product, a
+                <strong>Cimmerian</strong>
+                initiative.</p>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
