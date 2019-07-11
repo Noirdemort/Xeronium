@@ -33,7 +33,7 @@ def checkFields(form, conditions):
 
 @app.route('/', methods=["GET"])
 def showLogin():
-    return render_template('index.html', username="user", res=[], logged_in=False)
+    return render_template('index.html', email="user", res=[], logged_in=False)
 
 
 @app.route('/register', methods=['GET', "POST"])
@@ -41,20 +41,20 @@ def registerToHome():
     if request.method == 'GET':
         return render_template('register.html')
     credentials = dict(request.form)
-    if not checkFields(credentials, ['username', 'name', 'password', 'public_key', 'confirm_password']):
+    if not checkFields(credentials, ['email', 'name', 'password', 'public_key', 'confirm_password']):
         return "Insufficient fields!"
-    credentials['username'] = credentials['username'].lower()
-    if users.find_one({"username": credentials['username']}):
+    credentials['email'] = credentials['email'].lower()
+    if users.find_one({"email": credentials['email']}):
         return "User already exists!"
     password = credentials['password']
     confirm_password = credentials['confirm_password']
     if password != confirm_password:
         return "passwords don't match"
     sal = salt()
-    link = gen_hash(credentials['username'], sal)[:7]
+    link = gen_hash(credentials['email'], sal)[:7]
     while users.find_one({'link': link}):
         link = gen_hash(credentials['username'], salt())[:7]
-    user = {"username": credentials['username'], 'name': credentials['name'], "password": gen_hash(
+    user = {"email": credentials['email'], 'name': credentials['name'], "password": gen_hash(
         credentials['password'], sal), "public_key": credentials['public_key'], "salt": sal, 'link': link}
     users.insert_one(user)
     return render_template('login.html')
@@ -65,17 +65,17 @@ def loginToHome():
     if request.method == "GET":
         return render_template('login.html')
     credentials = dict(request.form)
-    if not checkFields(credentials, ['password', 'username']):
+    if not checkFields(credentials, ['password', 'email']):
         return "Insufficient fields!"
     password = credentials['password']
-    user = users.find_one({"username": credentials['username'].lower()})
+    user = users.find_one({"email": credentials['email'].lower()})
 
     if user is None:
         return "No such account"
     if gen_hash(password, user['salt']) != user['password']:
         return "Invalid Credentials"
-    session['username'] = credentials['username'].lower()
-    return render_template('index.html', username=credentials['username'], res=[], logged_in=True)
+    session['username'] = credentials['email'].lower()
+    return render_template('index.html', email=credentials['email'], res=[], logged_in=True)
 
 
 @app.route('/fetch/<link>')
@@ -93,12 +93,12 @@ def changeKey():
     data = dict(request.form)
     if not checkFields(data, ['public_key']):
         return 'Insufficient fields!'
-    users.update_one({"username": session['username']}, {
+    users.update_one({"email": session['username']}, {
                      '$set': {
                          "public_key": data['public_key']
                      }
                      })
-    return render_template('index.html', username=session['username'], res=[], logged_in=True)
+    return render_template('index.html', email=session['username'], res=[], logged_in=True)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -110,7 +110,7 @@ def searchUser():
         else:
             user = 'user'
             logged_in = False
-        return render_template('index.html', username=user, res=[], logged_in=logged_in)
+        return render_template('index.html', email=user, res=[], logged_in=logged_in)
     elif request.method == "POST":
         data = dict(request.form)
         print(data)
@@ -118,7 +118,7 @@ def searchUser():
         search_expr = re.compile(f".*{word}.*", re.I)
         search_request = {
             '$or': [
-                {'username': {'$regex': search_expr}},
+                {'email': {'$regex': search_expr}},
                 {'name': {'$regex': search_expr}},
             ]
         }
@@ -126,14 +126,14 @@ def searchUser():
         mod_results = []
         for result in results:
             mod_results.append(
-                [result['username'], result['name'], result['link']])
+                [result['email'], result['name'], result['link']])
         if 'username' in session:
             user = session['username']
             logged_in = True
         else:
             user = 'user'
             logged_in = False
-        return render_template('index.html', username=user, res=mod_results, logged_in=logged_in)
+        return render_template('index.html', email=user, res=mod_results, logged_in=logged_in)
     else:
         return 'Unsupported Method!'
 
