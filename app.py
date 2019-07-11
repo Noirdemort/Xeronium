@@ -33,7 +33,7 @@ def checkFields(form, conditions):
 
 @app.route('/', methods=["GET"])
 def showLogin():
-    return render_template('index.html', email="user", res=[], logged_in=False)
+    return render_template('index.html', username="user", res=[], logged_in=False)
 
 
 @app.route('/register', methods=['GET', "POST"])
@@ -75,7 +75,7 @@ def loginToHome():
     if gen_hash(password, user['salt']) != user['password']:
         return "Invalid Credentials"
     session['username'] = credentials['email'].lower()
-    return render_template('index.html', email=credentials['email'], res=[], logged_in=True)
+    return render_template('index.html', username=credentials['email'], res=[], logged_in=True)
 
 
 @app.route('/fetch/<link>')
@@ -98,7 +98,7 @@ def changeKey():
                          "public_key": data['public_key']
                      }
                      })
-    return render_template('index.html', email=session['username'], res=[], logged_in=True)
+    return render_template('index.html', username=session['username'], res=[], logged_in=True)
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -110,7 +110,7 @@ def searchUser():
         else:
             user = 'user'
             logged_in = False
-        return render_template('index.html', email=user, res=[], logged_in=logged_in)
+        return render_template('index.html', username=user, res=[], logged_in=logged_in)
     elif request.method == "POST":
         data = dict(request.form)
         print(data)
@@ -133,7 +133,7 @@ def searchUser():
         else:
             user = 'user'
             logged_in = False
-        return render_template('index.html', email=user, res=mod_results, logged_in=logged_in)
+        return render_template('index.html', username=user, res=mod_results, logged_in=logged_in)
     else:
         return 'Unsupported Method!'
 
