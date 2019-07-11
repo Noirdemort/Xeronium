@@ -5,7 +5,7 @@ import string
 import os
 import re
 from hashlib import sha512
-mongo_url = 'mongodb+srv://cimmerian: TivmprRd7spxx3pG@xenophyte-gpkbv.azure.mongodb.net/test?retryWrites=true&w=majority'
+mongo_url = 'mongodb+srv://cimmerian:TivmprRd7spxx3pG@xenophyte-gpkbv.azure.mongodb.net/test?retryWrites=true&w=majority'
 
 client = pymongo.MongoClient(mongo_url)
 xenotron = client['xenotron']
