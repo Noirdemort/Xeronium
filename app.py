@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template, session, redirect
 import pymongo
 import random
 import string
@@ -29,6 +29,14 @@ def checkFields(form, conditions):
         if not con in form:
             return False
     return True
+
+
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 
 @app.route('/', methods=["GET"])
