@@ -4,15 +4,18 @@ import random
 import string
 import os
 import re
-from hashlib import sha512
-mongo_url = 'mongodb+srv://cimmerian:TivmprRd7spxx3pG@xenophyte-gpkbv.azure.mongodb.net/test?retryWrites=true&w=majority'
+from hashlib import sha512 
+
+mongo_url = "mongodb://localhost:27017/"
+with open('conf.txt', 'r') as f:
+    mongo_url = f.read().strip()
 
 client = pymongo.MongoClient(mongo_url)
 xenotron = client['xenotron']
 users = xenotron['users']
 
 app = Flask(__name__)
-app.secret_key = 'HJDSKJSK_SCBJHSIUHSC_WDNJSNS_@IUSDJHA_SDBWOSXSXJKWXZMCVGHBNHU=12E09DE129398ZMMLALAPRFE'
+app.secret_key = os.urandom(30).hex()
 
 
 def gen_hash(string, salt):
@@ -31,12 +34,12 @@ def checkFields(form, conditions):
     return True
 
 
-@app.before_request
-def before_request():
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
+#@app.before_request
+#def before_request():
+#    if request.url.startswith('http://'):
+#        url = request.url.replace('http://', 'https://', 1)
+#        code = 301
+#        return redirect(url, code=code)
 
 
 @app.route('/', methods=["GET"])
@@ -154,4 +157,4 @@ def logout():
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    app.run( host='0.0.0.0', port=port)
+    app.run(host='127.0.0.1', port=5000)
